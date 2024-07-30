@@ -1,7 +1,10 @@
 #include "StringCalculator.h"
 #include <sstream>
+#include <algorithm>
 
 int StringCalculator::add(const std::string& numbers) {
+    if (numbers.empty()) return 0;
+    
     std::vector<int> extractedNumbers = extractNumbers(numbers);
     checkForNegatives(extractedNumbers);
     return calculateSum(extractedNumbers);
@@ -15,17 +18,23 @@ std::vector<std::string> StringCalculator::split(const std::string& text, const 
     std::vector<std::string> tokens;
     size_t start = 0, end = 0;
     while ((end = text.find_first_of(delimiters, start)) != std::string::npos) {
-        tokens.push_back(text.substr(start, end - start));
+        if (end > start) {
+            tokens.push_back(text.substr(start, end - start));
+        }
         start = end + 1;
     }
-    tokens.push_back(text.substr(start));
+    if (start < text.size()) {
+        tokens.push_back(text.substr(start));
+    }
     return tokens;
 }
 
 std::vector<int> StringCalculator::convertToIntegers(const std::vector<std::string>& strings) {
     std::vector<int> numbers;
     for (const std::string& str : strings) {
-        numbers.push_back(std::stoi(str));
+        if (!str.empty()) {
+            numbers.push_back(std::stoi(str));
+        }
     }
     return numbers;
 }
@@ -62,7 +71,9 @@ std::string StringCalculator::buildNegativesErrorMessage(const std::vector<int>&
 int StringCalculator::calculateSum(const std::vector<int>& numbers) {
     int sum = 0;
     for (int number : numbers) {
-        sum += number;
+        if (number <= 1000) {
+            sum += number;
+        }
     }
     return sum;
 }
