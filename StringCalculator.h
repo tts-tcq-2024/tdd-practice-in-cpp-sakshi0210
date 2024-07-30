@@ -5,6 +5,7 @@
 class StringCalculator {
 public:
     int add(const std::string& numbers);
+private:
     std::vector<int> extractNumbers(const std::string& numbers);
     std::vector<std::string> split(const std::string& text, const std::string& delimiters);
     std::vector<int> convertToIntegers(const std::vector<std::string>& strings);
