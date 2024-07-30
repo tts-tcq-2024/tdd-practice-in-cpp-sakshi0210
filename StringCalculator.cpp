@@ -1,3 +1,5 @@
+
+
 #include "StringCalculator.h"
 #include <sstream>
 #include <stdexcept>
@@ -50,14 +52,30 @@ std::vector<int> StringCalculator::convertToIntegers(const std::vector<std::stri
 }
 
 void StringCalculator::checkForNegatives(const std::vector<int>& numbers) {
+    std::vector<int> negatives = findNegatives(numbers);
+    throwIfNegativesExist(negatives);
+}
+
+std::vector<int> StringCalculator::findNegatives(const std::vector<int>& numbers) {
     std::vector<int> negatives;
     for (int num : numbers) {
         if (num < 0) {
             negatives.push_back(num);
         }
     }
+    return negatives;
+}
+
+void StringCalculator::throwIfNegativesExist(const std::vector<int>& negatives) {
     if (!negatives.empty()) {
-        throw std::runtime_error("negatives not allowed: " + std::to_string(negatives[0]));
+        std::string message = "negatives not allowed: ";
+        for (size_t i = 0; i < negatives.size(); ++i) {
+            message += std::to_string(negatives[i]);
+            if (i != negatives.size() - 1) {
+                message += ", ";
+            }
+        }
+        throw std::runtime_error(message);
     }
 }
 
@@ -70,4 +88,3 @@ int StringCalculator::calculateSum(const std::vector<int>& numbers) {
     }
     return sum;
 }
-
