@@ -48,11 +48,15 @@ std::vector<int> StringCalculator::findNegatives(const std::vector<int>& numbers
 }
 
 std::string StringCalculator::buildNegativesErrorMessage(const std::vector<int>& negatives) {
-    std::string message = "Negatives not allowed: ";
-    for (int negative : negatives) {
-        message += std::to_string(negative) + " ";
+    std::ostringstream message;
+    message << "Negatives not allowed: ";
+    for (size_t i = 0; i < negatives.size(); ++i) {
+        if (i > 0) {
+            message << ", ";
+        }
+        message << negatives[i];
     }
-    return message;
+    return message.str();
 }
 
 int StringCalculator::calculateSum(const std::vector<int>& numbers) {
@@ -62,4 +66,3 @@ int StringCalculator::calculateSum(const std::vector<int>& numbers) {
     }
     return sum;
 }
-
