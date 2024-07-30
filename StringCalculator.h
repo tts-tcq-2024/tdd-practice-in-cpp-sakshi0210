@@ -13,8 +13,11 @@ private:
     std::vector<std::string> split(const std::string& str, const std::string& delimiters);
     std::vector<int> convertToIntegers(const std::vector<std::string>& tokens);
     void checkForNegatives(const std::vector<int>& numbers);
+    std::vector<int> findNegatives(const std::vector<int>& numbers);
+    void throwIfNegativesExist(const std::vector<int>& negatives);
     int calculateSum(const std::vector<int>& numbers);
 };
 
 #endif // STRINGCALCULATOR_H
+
 
