@@ -14,4 +14,3 @@ private:
     std::string buildNegativesErrorMessage(const std::vector<int>& negatives);
     int calculateSum(const std::vector<int>& numbers);
 };
-
