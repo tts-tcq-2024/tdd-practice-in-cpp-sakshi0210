@@ -1,6 +1,7 @@
 #include "StringCalculator.h"
 #include <sstream>
 #include <algorithm>
+#include <regex>
 
 int StringCalculator::add(const std::string& numbers) {
     if (numbers.empty()) return 0;
@@ -11,20 +12,25 @@ int StringCalculator::add(const std::string& numbers) {
 }
 
 std::vector<int> StringCalculator::extractNumbers(const std::string& numbers) {
-    return convertToIntegers(split(numbers, ",\n"));
+    std::string delimiters = ",\n";
+    std::string numbersToParse = numbers;
+
+    if (numbersToParse.substr(0, 2) == "//") {
+        size_t delimiterEnd = numbersToParse.find('\n');
+        delimiters += numbersToParse.substr(2, delimiterEnd - 2);
+        numbersToParse = numbersToParse.substr(delimiterEnd + 1);
+    }
+
+    return convertToIntegers(split(numbersToParse, delimiters));
 }
 
 std::vector<std::string> StringCalculator::split(const std::string& text, const std::string& delimiters) {
     std::vector<std::string> tokens;
-    size_t start = 0, end = 0;
-    while ((end = text.find_first_of(delimiters, start)) != std::string::npos) {
-        if (end > start) {
-            tokens.push_back(text.substr(start, end - start));
-        }
-        start = end + 1;
-    }
-    if (start < text.size()) {
-        tokens.push_back(text.substr(start));
+    std::regex re("[" + delimiters + "]");
+    std::sregex_token_iterator it(text.begin(), text.end(), re, -1);
+    std::sregex_token_iterator end;
+    for (; it != end; ++it) {
+        tokens.push_back(*it);
     }
     return tokens;
 }
@@ -77,3 +83,4 @@ int StringCalculator::calculateSum(const std::vector<int>& numbers) {
     }
     return sum;
 }
+
